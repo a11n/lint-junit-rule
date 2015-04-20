@@ -2,7 +2,7 @@
 A JUnit rule which allows unit testing of custom Lint rules.
 
 ## Motivation
-Writing custom Lint rules basically has to challenges:
+Writing custom Lint rules basically has two challenges:
 
 1. Find documentation on how to write custom Lint rules
 2. Test your custom Lint rules
