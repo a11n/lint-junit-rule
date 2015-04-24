@@ -14,7 +14,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.kt3k.coveralls'
 
-version = '0.1.0'
+version = '0.1.1'
 
 repositories {
   mavenCentral()
