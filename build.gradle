@@ -65,8 +65,8 @@ allprojects{
 }
 
 bintray {
-  user = hasProperty('bintray_user') ? bintray_user : ''
-  key = hasProperty('bintray_key') ? bintray_key : ''
+  user = project.hasProperty('bintray_user') ? bintray_user : ''
+  key = project.hasProperty('bintray_key') ? bintray_key : ''
   publications = ['mavenJava']
   dryRun = false
   publish = false
