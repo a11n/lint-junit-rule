@@ -10,13 +10,14 @@ import com.android.tools.lint.detector.api.Issue;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 class TestLintClient extends LintCliClient {
   Reporter reporter = new TextReporter(this, mFlags, new StringWriter(), false);
   GenericIssueRegistry issueRegistry = new GenericIssueRegistry();
-  
+
   public TestLintClient() {
     super(new LintCliFlags());
     mFlags.getReporters().add(reporter);
@@ -36,7 +37,14 @@ class TestLintClient extends LintCliClient {
     List<File> files = new ArrayList<File>();
     for (String relativePath : relativePaths) {
       ClassLoader classLoader = TestLintClient.class.getClassLoader();
-      files.add(new File(classLoader.getResource(relativePath).getFile()));
+      URL url = classLoader.getResource(relativePath);
+
+      if (url == null) {
+        throw new IllegalArgumentException(
+            String.format("'%s' is not a valid resource", relativePath));
+      }
+
+      files.add(new File(url.getFile()));
     }
 
     return files;
