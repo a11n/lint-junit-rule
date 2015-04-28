@@ -15,7 +15,7 @@ This is why **Lint JUnit rule** might be what you are looking for.
 Import the dependency in your build.gradle:
 ```groovy
 dependencies{
-  testCompile 'com.android.tools.lint:lint:24.1.3'
+  testCompile 'com.android.tools.lint:lint:24.2.1'
   testCompile 'com.ad.android.tools.lint:lint-junit-rule:0.1.0'
 }
 ```
