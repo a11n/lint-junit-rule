@@ -38,7 +38,25 @@ Apply the rule in your test class, specify the files to analyze and the rules to
 ## Example
 Please find a complete example of how to integrate **lint-junit-rule** into a custom Lint rule project [here](https://github.com/a11n/AndroidLintPlaceholderCheck).
 
+## Remark
+On **April 28th 2015** Tor Norbye published a new Gradle-based project template to the official Android Lint docs [4], which contains the following notification:
+
+```java
+   // When version 1.3 of the Android Gradle plugin is released,
+   // the lint unit testing infrastructure has been pulled out of
+   // the lint implementation and into a separate library that lint
+   // custom rule projects can depend on.
+```
+
+The Android code base also contains further hints that there will be official unit test support in version 1.3 of the Android tools:
+
+https://android.googlesource.com/platform/tools/base/+/4065f99c18aec7bc9519b74f00ebc6dfb22920f1
+https://android.googlesource.com/platform/tools/base/+/studio-1.3-release/lint/libs/lint-tests/build.gradle
+
+I will give my best and try to keep this rule up-to-date.
+
 ## References
 1. http://tools.android.com/tips/lint/writing-a-lint-check
 2. https://android.googlesource.com/platform/tools/base/+/master/lint/cli/src/test/java/com/android/tools/lint/checks/AbstractCheckTest.java
 3. https://engineering.linkedin.com/android/writing-custom-lint-checks-gradle
+4. http://tools.android.com/tips/lint-custom-rules
