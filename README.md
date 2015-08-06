@@ -1,4 +1,8 @@
 # lint-junit-rule [![Build Status](https://travis-ci.org/a11n/lint-junit-rule.svg)](https://travis-ci.org/a11n/lint-junit-rule) [![Coverage Status](https://coveralls.io/repos/a11n/lint-junit-rule/badge.svg)](https://coveralls.io/r/a11n/lint-junit-rule) [ ![Download](https://api.bintray.com/packages/a11n/maven/com.ad.android.tools.lint/images/download.svg) ](https://bintray.com/a11n/maven/com.ad.android.tools.lint/_latestVersion)
+
+## Deprecated
+**This project is deprecated. There will be no new development on this project. Since July 29 there is now an official working solution available. [Please use the official solution](https://bintray.com/android/android-tools/com.android.tools.lint.lint-tests/) instead.**
+
 A JUnit rule which allows unit testing of custom Lint rules.
 
 ## Motivation
