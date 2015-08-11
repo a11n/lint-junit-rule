@@ -3,7 +3,6 @@ package com.ad.android.tools.lint;
 import com.android.tools.lint.Warning;
 import com.android.tools.lint.detector.api.Detector;
 import com.android.tools.lint.detector.api.Issue;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 
@@ -18,7 +17,7 @@ public class LintTest {
     Issue[] issues = {Helper.dummyIssue()};
     Lint lint = new Lint(files, detector, issues);
     
-    lint.genericLintDetectorTest = Helper.dummyDetectorTest();
+    lint.wrapper = Helper.dummyWrapper();
     
     lint.analyze();
     

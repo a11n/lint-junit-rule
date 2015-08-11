@@ -6,7 +6,6 @@ import com.android.tools.lint.detector.api.Detector;
 import com.android.tools.lint.detector.api.Implementation;
 import com.android.tools.lint.detector.api.Issue;
 import com.android.tools.lint.detector.api.Severity;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,8 +23,8 @@ class Helper {
         mock(Implementation.class));
   }
 
-  public static Lint.GenericLintDetectorTest dummyDetectorTest(){
-    Lint.GenericLintDetectorTest detectorTest = mock(Lint.GenericLintDetectorTest.class);
+  public static Lint.Wrapper dummyWrapper(){
+    Lint.Wrapper detectorTest = mock(Lint.Wrapper.class);
     
     when(detectorTest.getWarnings()).thenReturn(dummyWarnings());
     

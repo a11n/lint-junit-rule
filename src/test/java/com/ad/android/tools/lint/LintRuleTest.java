@@ -13,7 +13,7 @@ public class LintRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    lint.genericLintDetectorTest = Helper.dummyDetectorTest();
+    lint.wrapper = Helper.dummyWrapper();
   }
 
   @Test

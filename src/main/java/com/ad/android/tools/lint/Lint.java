@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Ignore;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -34,7 +35,7 @@ import org.junit.runners.model.Statement;
  * </pre>
  */
 public class Lint implements TestRule {
-  GenericLintDetectorTest genericLintDetectorTest;
+  Wrapper wrapper;
 
   private String[] files;
   private Detector detector;
@@ -47,7 +48,7 @@ public class Lint implements TestRule {
    * issues before calling {@code analyze()}.
    */
   public Lint() {
-    genericLintDetectorTest = new GenericLintDetectorTest();
+    wrapper = new Wrapper.GenericDetectorTest();
   }
 
   /**
@@ -113,9 +114,9 @@ public class Lint implements TestRule {
       throw new IllegalStateException("Files, detector or issues must not be null");
     }
 
-    genericLintDetectorTest.analyze(detector, Arrays.asList(issues), files);
+    wrapper.analyze(detector, Arrays.asList(issues), files);
 
-    warnings = genericLintDetectorTest.getWarnings();
+    warnings = wrapper.getWarnings();
   }
 
   /**
@@ -145,55 +146,62 @@ public class Lint implements TestRule {
     }
   }
 
-  static class GenericLintDetectorTest extends LintDetectorTest {
+  interface Wrapper {
 
-    private Detector detector;
-    private List<Issue> issues;
+    void analyze(Detector detector, List<Issue> issues, String... files) throws Exception;
 
-    private List<Warning> warnings;
+    List<Warning> getWarnings();
 
-    public void analyze(Detector detector, List<Issue> issues, String... files) throws Exception {
-      this.detector = detector;
-      this.issues = issues;
+    @Ignore
+    final class GenericDetectorTest extends LintDetectorTest implements Wrapper {
+      private Detector detector;
+      private List<Issue> issues;
 
-      lintFiles(files);
-    }
+      private List<Warning> warnings;
 
-    public List<Warning> getWarnings() {
-      return warnings;
-    }
+      public void analyze(Detector detector, List<Issue> issues, String... files) throws Exception {
+        this.detector = detector;
+        this.issues = issues;
 
-    @Override protected Detector getDetector() {
-      return detector;
-    }
-
-    @Override protected List<Issue> getIssues() {
-      return issues;
-    }
-
-    @Override protected String checkLint(List<File> files) throws Exception {
-      ExtendedTestLintClient testLintClient = new ExtendedTestLintClient();
-      String result = checkLint(testLintClient, files);
-
-      warnings = testLintClient.getWarning();
-
-      return result;
-    }
-
-    //this needs to be overridden (see https://code.google.com/p/android/issues/detail?id=182195)
-    @Override protected InputStream getTestResource(String relativePath, boolean expectExists) {
-      String path = relativePath; //$NON-NLS-1$
-      InputStream stream = this.getClass().getClassLoader().getResourceAsStream(path);
-      if (!expectExists && stream == null) {
-        return null;
+        lintFiles(files);
       }
-      return stream;
-    }
 
-    private class ExtendedTestLintClient extends TestLintClient {
+      public List<Warning> getWarnings() {
+        return warnings;
+      }
 
-      public List<Warning> getWarning() {
-        return mWarnings;
+      @Override protected Detector getDetector() {
+        return detector;
+      }
+
+      @Override protected List<Issue> getIssues() {
+        return issues;
+      }
+
+      @Override protected String checkLint(List<File> files) throws Exception {
+        ExtendedTestLintClient testLintClient = new ExtendedTestLintClient();
+        String result = checkLint(testLintClient, files);
+
+        warnings = testLintClient.getWarning();
+
+        return result;
+      }
+
+      //this needs to be overridden (see https://code.google.com/p/android/issues/detail?id=182195)
+      @Override protected InputStream getTestResource(String relativePath, boolean expectExists) {
+        String path = relativePath; //$NON-NLS-1$
+        InputStream stream = this.getClass().getClassLoader().getResourceAsStream(path);
+        if (!expectExists && stream == null) {
+          return null;
+        }
+        return stream;
+      }
+
+      private class ExtendedTestLintClient extends TestLintClient {
+
+        public List<Warning> getWarning() {
+          return mWarnings;
+        }
       }
     }
   }
