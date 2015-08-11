@@ -1,7 +1,9 @@
 package com.ad.android.tools.lint;
 
 import com.android.tools.lint.Warning;
+import com.android.tools.lint.detector.api.Detector;
 import com.android.tools.lint.detector.api.Issue;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 
@@ -12,10 +14,11 @@ public class LintTest {
   @Test
   public void shouldAnalyzeAndReturnWarnings() throws Exception {
     String[] files = {"file"};
+    Detector detector = Helper.dummyDetector();
     Issue[] issues = {Helper.dummyIssue()};
-    Lint lint = new Lint(files, issues);
+    Lint lint = new Lint(files, detector, issues);
     
-    lint.testLintClient = Helper.dummyTestLintClient();
+    lint.genericLintDetectorTest = Helper.dummyDetectorTest();
     
     lint.analyze();
     
@@ -28,6 +31,17 @@ public class LintTest {
   public void analyzeShouldThrowWhenFilesNotSet() throws Exception {
     Lint lint = new Lint();
     
+    lint.setDetector(Helper.dummyDetector());
+    lint.setIssues(Helper.dummyIssue());
+
+    lint.analyze();
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void analyzeShouldThrowWhenDetectorNotSet() throws Exception {
+    Lint lint = new Lint();
+
+    lint.setFiles("file");
     lint.setIssues(Helper.dummyIssue());
 
     lint.analyze();
@@ -38,6 +52,7 @@ public class LintTest {
     Lint lint = new Lint();
 
     lint.setFiles("file");
+    lint.setDetector(Helper.dummyDetector());
 
     lint.analyze();
   }

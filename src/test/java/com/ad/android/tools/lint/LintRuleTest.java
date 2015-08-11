@@ -13,12 +13,13 @@ public class LintRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    lint.testLintClient = Helper.dummyTestLintClient();
+    lint.genericLintDetectorTest = Helper.dummyDetectorTest();
   }
 
   @Test
   public void test() throws Exception {
     lint.setFiles("file1", "file2");
+    lint.setDetector(Helper.dummyDetector());
     lint.setIssues(Helper.dummyIssue());
     
     lint.analyze();
