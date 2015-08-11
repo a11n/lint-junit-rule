@@ -15,51 +15,12 @@ public class LintTest {
     String[] files = {"file"};
     Detector detector = Helper.dummyDetector();
     Issue[] issues = {Helper.dummyIssue()};
-    Lint lint = new Lint(files, detector, issues);
+    Lint lint = new Lint(detector, issues);
     
     lint.wrapper = Helper.dummyWrapper();
     
-    lint.analyze();
-    
-    List<Warning> warnings = lint.getWarnings();
+    List<Warning> warnings = lint.files(files);
     
     assertThat(warnings).isEqualTo(Helper.dummyWarnings());
-  }
-
-  @Test(expected = IllegalStateException.class)
-  public void analyzeShouldThrowWhenFilesNotSet() throws Exception {
-    Lint lint = new Lint();
-    
-    lint.setDetector(Helper.dummyDetector());
-    lint.setIssues(Helper.dummyIssue());
-
-    lint.analyze();
-  }
-
-  @Test(expected = IllegalStateException.class)
-  public void analyzeShouldThrowWhenDetectorNotSet() throws Exception {
-    Lint lint = new Lint();
-
-    lint.setFiles("file");
-    lint.setIssues(Helper.dummyIssue());
-
-    lint.analyze();
-  }
-
-  @Test(expected = IllegalStateException.class)
-  public void analyzeShouldThrowWhenIssuesNotSet() throws Exception {
-    Lint lint = new Lint();
-
-    lint.setFiles("file");
-    lint.setDetector(Helper.dummyDetector());
-
-    lint.analyze();
-  }
-
-  @Test(expected = IllegalStateException.class)
-  public void warningShouldThrowWhenCalledBeforeAnalyze() throws Exception {
-    Lint lint = new Lint();
-
-    lint.getWarnings();
   }
 }

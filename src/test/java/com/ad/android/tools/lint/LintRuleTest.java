@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LintRuleTest {
-  @Rule public Lint lint = new Lint();
+  @Rule public Lint lint = new Lint(Helper.dummyDetector(), Helper.dummyIssue());
 
   @Before
   public void setUp() throws Exception {
@@ -18,14 +18,8 @@ public class LintRuleTest {
 
   @Test
   public void test() throws Exception {
-    lint.setFiles("file1", "file2");
-    lint.setDetector(Helper.dummyDetector());
-    lint.setIssues(Helper.dummyIssue());
-    
-    lint.analyze();
+    List<Warning> warnings = lint.files("file1", "file2");
 
-    List<Warning> warnings = lint.getWarnings();
-    
     assertThat(warnings).hasSize(2);
   }
 }
