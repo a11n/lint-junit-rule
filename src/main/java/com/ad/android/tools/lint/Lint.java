@@ -6,6 +6,7 @@ import com.android.tools.lint.checks.infrastructure.LintDetectorTest;
 import com.android.tools.lint.detector.api.Detector;
 import com.android.tools.lint.detector.api.Issue;
 import java.io.File;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.rules.TestRule;
@@ -33,10 +34,12 @@ import org.junit.runners.model.Statement;
  * </pre>
  */
 public class Lint implements TestRule {
+  GenericLintDetectorTest genericLintDetectorTest;
+
   private String[] files;
   private Detector detector;
-  private Issue[] issues;
 
+  private Issue[] issues;
   private List<Warning> warnings;
 
   /**
@@ -44,6 +47,7 @@ public class Lint implements TestRule {
    * issues before calling {@code analyze()}.
    */
   public Lint() {
+    genericLintDetectorTest = new GenericLintDetectorTest();
   }
 
   /**
@@ -54,6 +58,8 @@ public class Lint implements TestRule {
    * @param issues to be reported by Lint analysis.
    */
   public Lint(@NonNull String[] files, @NonNull Detector detector, @NonNull Issue[] issues) {
+    this();
+
     this.files = files;
     this.detector = detector;
     this.issues = issues;
@@ -107,10 +113,7 @@ public class Lint implements TestRule {
       throw new IllegalStateException("Files, detector or issues must not be null");
     }
 
-    GenericLintDetectorTest genericLintDetectorTest = new GenericLintDetectorTest(detector,
-        Arrays.asList(issues));
-
-    genericLintDetectorTest.analyze(files);
+    genericLintDetectorTest.analyze(detector, Arrays.asList(issues), files);
 
     warnings = genericLintDetectorTest.getWarnings();
   }
@@ -142,19 +145,17 @@ public class Lint implements TestRule {
     }
   }
 
-  private class GenericLintDetectorTest extends LintDetectorTest {
+  static class GenericLintDetectorTest extends LintDetectorTest {
 
-    private final Detector detector;
-    private final List<Issue> issues;
+    private Detector detector;
+    private List<Issue> issues;
 
     private List<Warning> warnings;
 
-    public GenericLintDetectorTest(Detector detector, List<Issue> issues) {
+    public void analyze(Detector detector, List<Issue> issues, String... files) throws Exception {
       this.detector = detector;
       this.issues = issues;
-    }
 
-    public void analyze(String... files) throws Exception {
       lintFiles(files);
     }
 
@@ -177,6 +178,16 @@ public class Lint implements TestRule {
       warnings = testLintClient.getWarning();
 
       return result;
+    }
+
+    //this needs to be overridden (see https://code.google.com/p/android/issues/detail?id=182195)
+    @Override protected InputStream getTestResource(String relativePath, boolean expectExists) {
+      String path = relativePath; //$NON-NLS-1$
+      InputStream stream = this.getClass().getClassLoader().getResourceAsStream(path);
+      if (!expectExists && stream == null) {
+        return null;
+      }
+      return stream;
     }
 
     private class ExtendedTestLintClient extends TestLintClient {
