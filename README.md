@@ -30,7 +30,10 @@ Apply the rule in your test class and specify the `Detector` as well as the `Iss
   public void test() throws Exception {
     List<Warning> warnings = lint.files("AndroidManifest.xml", "res/values/string.xml");
 
-    assertThat(warnings).hasSize(2);
+    assertThat(warnings).extracting("file.name", "line", "message")
+        .containsExactly(
+            tuple("AndroidManifest.xml", 8, "MyCustomRule warning message."),
+            tuple("string.xml", 14, "MyCustomRule warning message."));
   }
 ```
 **Note:** Test resources are looked-up in `test/res`.
