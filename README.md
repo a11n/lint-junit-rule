@@ -2,12 +2,14 @@
 
 A JUnit rule which allows unit testing of custom Lint rules.
 
+If you want to learn more about custom Lint rules please check [this reference guide](https://github.com/a11n/android-lint). If you want to write your own custom Lint rule you could use [this custom Lint rule template](https://github.com/a11n/CustomLintRules). If you are still looking for more details you are welcome to check [this workshop on custom Lint rules](https://github.com/a11n/lint-workshop-slides).
+
 ## Motivation
-Fortunately, with the release of the **lint-tests** library **version 24.3.0** at the end of July 2015 [1] there is now official test support available for custom Lint rules. Unfortunately there are still some drawbacks attached:
+Fortunately, with the release of the **lint-tests** library **version 24.3.0** at the end of July 2015 [1] there is now official test support available for custom Lint rules. Unfortunately there are still some drawbacks:
 
 1. You have to use the **JUnit 3** approach of extending `LintDetectorTest`.
 2. The assertion options are poor, all you get is one `String`.
-3. There is one issue when loading your test resources [2].
+3. There is an issue when loading your test resources [2].
 
 Therefore the objective of this library is to take you one step further:
 
