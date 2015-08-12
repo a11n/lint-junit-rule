@@ -10,6 +10,7 @@ Fortunately, with the release of the **lint-tests** library **version 24.3.0** a
 3. There is one issue when loading your test resources [2].
 
 Therefore the objective of this library is to take you one step further:
+
 1. It provides **JUnit 4** support by wrapping the official test support into a dedicated JUnit rule.
 2. Furthermore it exposes the *internal* Lint `Warnings` for you which allows powerful assertions.
 3. Last but not least it fixes the aforementioned issue for you which gives you a convenient way to place your test resources in *test/res*.
