@@ -5,9 +5,12 @@ import com.android.tools.lint.detector.api.Category;
 import com.android.tools.lint.detector.api.Detector;
 import com.android.tools.lint.detector.api.Implementation;
 import com.android.tools.lint.detector.api.Issue;
+import com.android.tools.lint.detector.api.Project;
 import com.android.tools.lint.detector.api.Severity;
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import org.easymock.Mock;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -32,10 +35,26 @@ class Helper {
   }
   
   public static List<Warning> dummyWarnings() {
-    Issue issue = dummyIssue();
-    Warning warning1 = new Warning(issue, "Warning 1", Severity.IGNORE, null);
-    Warning warning2 = new Warning(issue, "Warning 2", Severity.IGNORE, null);
+    Warning warning1 = MockWarning.with("file1", 1, "Warning 1");
+    Warning warning2 = MockWarning.with("file2", 2, "Warning 2");
 
     return Arrays.asList(warning1, warning2);
+  }
+  
+  private static class MockWarning extends Warning{
+
+    private MockWarning(Issue issue, String message, Severity severity,
+        Project project) {
+      super(issue, message, severity, project);
+    }
+    
+    public static MockWarning with(String file, int line, String message){
+      MockWarning mockWarning = new MockWarning(dummyIssue(), message, Severity.IGNORE, null);
+      
+      mockWarning.file = new File(file);
+      mockWarning.line = line;
+      
+      return mockWarning;
+    }
   }
 }

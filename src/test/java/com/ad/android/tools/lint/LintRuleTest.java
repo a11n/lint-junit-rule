@@ -7,6 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.StrictAssertions.tuple;
 
 public class LintRuleTest {
   @Rule public Lint lint = new Lint(Helper.dummyDetector(), Helper.dummyIssue());
@@ -20,6 +21,9 @@ public class LintRuleTest {
   public void test() throws Exception {
     List<Warning> warnings = lint.files("file1", "file2");
 
-    assertThat(warnings).hasSize(2);
+    assertThat(warnings).extracting("file.name", "line", "message")
+        .containsExactly(
+            tuple("file1", 1, "Warning 1"),
+            tuple("file2", 2, "Warning 2"));
   }
 }
