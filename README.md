@@ -18,7 +18,8 @@ Therefore the objective of this library is to take you one step further:
 3. Last but not least it fixes the aforementioned issue for you which gives you a convenient way to place your test resources in *test/res*.
 
 ## Usage
-Import the dependency in your build.gradle:
+Import the dependency in your `build.gradle`. It's available via JCenter:
+
 ```groovy
 dependencies{
   ...
@@ -26,6 +27,7 @@ dependencies{
 }
 ```
 Apply the rule in your test class and specify the `Detector` as well as the `Issues` under test. Next provide the files to analyze. Finally do your assertions on the populated `Warnings`:
+
 ```java
   @Rule public Lint lint = new Lint(new MyCustomRule(), MyCustomRule.ISSUE);
 
