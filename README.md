@@ -23,7 +23,7 @@ Import the dependency in your `build.gradle`. It's available via JCenter:
 ```groovy
 dependencies{
   ...
-  testCompile 'com.ad.android.tools.lint:lint-junit-rule:0.2.0'
+  testCompile 'com.ad.android.tools.lint:lint-junit-rule:0.3.0'
 }
 ```
 Apply the rule in your test class and specify the `Detector` as well as the `Issues` under test. Next provide the files to analyze. Finally do your assertions on the populated `Warnings`:
@@ -33,12 +33,23 @@ Apply the rule in your test class and specify the `Detector` as well as the `Iss
 
   @Test
   public void test() throws Exception {
-    List<Warning> warnings = lint.files("AndroidManifest.xml", "res/values/string.xml");
+    List<Warning> lintResult = lint.files("AndroidManifest.xml", "res/values/string.xml");
 
-    assertThat(warnings).extracting("file.name", "line", "message")
-        .containsExactly(
-            tuple("AndroidManifest.xml", 8, "MyCustomRule warning message."),
-            tuple("string.xml", 14, "MyCustomRule warning message."));
+    //AssertJ
+    assertThat(lintResult)
+      .hasWarnings(2)
+      .in("AndroidManifest.xml", "string.xml")
+      .atLine(8, 14)
+      .withMessage("MyCustomRule warning message.",
+                   "MyCustomRule warning message.");
+
+    //Hamcrest
+    assertThat(lintResult,
+                hasWarnings(
+                  in("AndroidManifest.xml", "string.xml"),
+                  atLine(8, 14),
+                  withMessage("MyCustomRule warning message.",
+                              "MyCustomRule warning message.");
   }
 ```
 **Note:** Test resources are looked-up in `test/res`.
