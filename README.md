@@ -49,7 +49,7 @@ Apply the rule in your test class and specify the `Detector` as well as the `Iss
                   in("AndroidManifest.xml", "string.xml"),
                   atLine(8, 14),
                   withMessage("MyCustomRule warning message.",
-                              "MyCustomRule warning message.");
+                              "MyCustomRule warning message.")));
   }
 ```
 **Note:** Test resources are looked-up in `test/res`.
