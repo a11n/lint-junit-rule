@@ -13,6 +13,11 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
+publishing.publications.mavenJava(MavenPublication) {
+    groupId 'de.ad'
+    artifactId 'lint-hamcrest'
+}
+
 bintray.pkg {
     name = 'de.ad:lint-hamcrest'
     desc = 'Hamcrest matchers for Android Lint Warnings.'

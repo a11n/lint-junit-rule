@@ -30,6 +30,11 @@ jar {
   from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
+publishing.publications.mavenJava(MavenPublication) {
+  groupId 'de.ad'
+  artifactId 'lint-junit-rule'
+}
+
 bintray.pkg {
   name = 'de.ad:lint-junit-rule'
   desc = 'A JUnit rule which allows unit testing of custom Lint rules.'
