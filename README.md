@@ -24,6 +24,10 @@ Import the dependency in your `build.gradle`. It's available via JCenter:
 dependencies{
   ...
   testCompile 'de.ad:lint-junit-rule:0.3.0'
+  
+  //optional
+  testCompile 'de.ad:lint-assertj:0.3.0'
+  testCompile 'de.ad:lint-hamcrest:0.3.0'
 }
 ```
 Apply the rule in your test class and specify the `Detector` as well as the `Issues` under test. Next provide the files to analyze. Finally do your assertions on the populated `Warnings`:
