@@ -23,7 +23,7 @@ Import the dependency in your `build.gradle`. It's available via JCenter:
 ```groovy
 dependencies{
   ...
-  testCompile 'com.ad.android.tools.lint:lint-junit-rule:0.3.0'
+  testCompile 'de.ad:lint-junit-rule:0.3.0'
 }
 ```
 Apply the rule in your test class and specify the `Detector` as well as the `Issues` under test. Next provide the files to analyze. Finally do your assertions on the populated `Warnings`:
