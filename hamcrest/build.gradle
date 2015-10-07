@@ -62,7 +62,7 @@ bintray {
         issueTrackerUrl = 'https://github.com/a11n/lint-junit-rule/issues'
         vcsUrl = 'https://github.com/a11n/lint-junit-rule.git'
         licenses = ['MIT']
-        labels = ['Android', 'lint', 'JUnit', 'AssertJ']
+        labels = ['Android', 'lint', 'JUnit', 'hamcrest']
         publicDownloadNumbers = false
         version {
             name = project.version
