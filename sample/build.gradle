@@ -1,0 +1,26 @@
+apply plugin: 'java'
+
+version = '1.0.0'
+
+repositories {
+  jcenter()
+  maven {
+    url 'https://dl.bintray.com/android/android-tools'
+  }
+  maven {
+    url 'https://dl.bintray.com/a11n/maven/'
+  }
+}
+
+dependencies {
+  compile 'com.android.tools.lint:lint-api:24.3.1'
+  testCompile 'junit:junit:4.12'
+
+  testCompile 'de.ad:lint-junit-rule:0.3.0'
+
+  testCompile 'org.assertj:assertj-core:2.2.0'
+  testCompile 'de.ad:lint-assertj:0.3.0'
+
+  testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
+  testCompile 'de.ad:lint-hamcrest:0.3.0'
+}
