@@ -1,4 +1,4 @@
-# lint-junit-rule [![Build Status](https://travis-ci.org/a11n/lint-junit-rule.svg)](https://travis-ci.org/a11n/lint-junit-rule) [![Coverage Status](https://coveralls.io/repos/a11n/lint-junit-rule/badge.svg)](https://coveralls.io/r/a11n/lint-junit-rule) [ ![Download](https://api.bintray.com/packages/a11n/maven/com.ad.android.tools.lint/images/download.svg) ](https://bintray.com/a11n/maven/com.ad.android.tools.lint/_latestVersion)
+# lint-junit-rule [![Build Status](https://travis-ci.org/a11n/lint-junit-rule.svg)](https://travis-ci.org/a11n/lint-junit-rule) [![Coverage Status](https://coveralls.io/repos/a11n/lint-junit-rule/badge.svg)](https://coveralls.io/r/a11n/lint-junit-rule) [ ![Download](https://api.bintray.com/packages/a11n/maven/de.ad%3Alint-junit-rule/images/download.svg) ](https://bintray.com/a11n/maven/de.ad%3Alint-junit-rule/_latestVersion)
 
 A JUnit rule which allows unit testing of custom Lint rules.
 
@@ -37,12 +37,12 @@ Apply the rule in your test class and specify the `Detector` as well as the `Iss
 
   @Test
   public void test() throws Exception {
-    List<Warning> lintResult = lint.files("AndroidManifest.xml", "res/values/string.xml");
+    List<Warning> lintResult = lint.files("AndroidManifest.xml", "res/values/strings.xml");
 
     //AssertJ
     assertThat(lintResult)
       .hasWarnings(2)
-      .in("AndroidManifest.xml", "string.xml")
+      .in("AndroidManifest.xml", "strings.xml")
       .atLine(8, 14)
       .withMessage("MyCustomRule warning message.",
                    "MyCustomRule warning message.");
@@ -50,7 +50,7 @@ Apply the rule in your test class and specify the `Detector` as well as the `Iss
     //Hamcrest
     assertThat(lintResult,
                 hasWarnings(
-                  in("AndroidManifest.xml", "string.xml"),
+                  in("AndroidManifest.xml", "strings.xml"),
                   atLine(8, 14),
                   withMessage("MyCustomRule warning message.",
                               "MyCustomRule warning message.")));
