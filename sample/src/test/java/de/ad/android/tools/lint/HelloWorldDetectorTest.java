@@ -17,7 +17,7 @@ public class HelloWorldDetectorTest {
   @Rule public Lint lint = new Lint(new HelloWorldDetector(), HelloWorldDetector.ISSUE);
 
   @Test
-  public void shouldDetectNoWarning() throws Exception {
+  public void shouldDetectWarning() throws Exception {
     List<Warning> lintResult = lint.files("AndroidManifest.xml");
 
     //AssertJ
