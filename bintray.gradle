@@ -1,0 +1,48 @@
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
+}
+
+artifacts {
+  archives sourcesJar, javadocJar
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+
+      artifact sourcesJar
+      artifact javadocJar
+    }
+  }
+}
+
+bintray {
+  user = project.hasProperty('bintray_user') ? bintray_user : ''
+  key = project.hasProperty('bintray_key') ? bintray_key : ''
+  publications = ['mavenJava']
+  dryRun = false
+  publish = false
+  pkg {
+    repo = 'maven'
+    websiteUrl = 'https://github.com/a11n/lint-junit-rule'
+    issueTrackerUrl = 'https://github.com/a11n/lint-junit-rule/issues'
+    vcsUrl = 'https://github.com/a11n/lint-junit-rule.git'
+    licenses = ['MIT']
+    labels = ['Android', 'lint', 'JUnit']
+    publicDownloadNumbers = false
+    version {
+      name = project.version
+      desc = ''
+    }
+  }
+}

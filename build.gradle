@@ -1,0 +1,9 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+    classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.3.1'
+  }
+}
