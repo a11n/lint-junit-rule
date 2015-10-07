@@ -66,11 +66,6 @@ publishing {
   }
 }
 
-allprojects{
-  group = 'com.ad.android.tools.lint'
-  version = project.version
-}
-
 bintray {
   user = project.hasProperty('bintray_user') ? bintray_user : ''
   key = project.hasProperty('bintray_key') ? bintray_key : ''
@@ -79,7 +74,7 @@ bintray {
   publish = false
   pkg {
     repo = 'maven'
-    name = 'com.ad.android.tools.lint'
+    name = 'de.ad:lint-junit-rule'
     desc = 'A JUnit rule which allows unit testing of custom Lint rules.'
     websiteUrl = 'https://github.com/a11n/lint-junit-rule'
     issueTrackerUrl = 'https://github.com/a11n/lint-junit-rule/issues'
