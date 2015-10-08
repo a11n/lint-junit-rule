@@ -10,7 +10,6 @@ import com.android.tools.lint.detector.api.Severity;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import org.easymock.Mock;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -26,8 +25,8 @@ class Helper {
         mock(Implementation.class));
   }
 
-  public static Lint.Wrapper dummyWrapper(){
-    Lint.Wrapper detectorTest = mock(Lint.Wrapper.class);
+  public static Wrapper dummyWrapper(){
+    Wrapper detectorTest = mock(Wrapper.class);
     
     when(detectorTest.getWarnings()).thenReturn(dummyWarnings());
     

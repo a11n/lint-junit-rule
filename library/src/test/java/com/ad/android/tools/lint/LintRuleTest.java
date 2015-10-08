@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static com.ad.android.tools.lint.TestFile.java;
+import static com.ad.android.tools.lint.TestFile.xml;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.StrictAssertions.tuple;
 
@@ -18,8 +20,20 @@ public class LintRuleTest {
   }
 
   @Test
-  public void test() throws Exception {
+  public void testLintFiles() throws Exception {
     List<Warning> warnings = lint.files("file1", "file2");
+
+    assertThat(warnings).extracting("file.name", "line", "message")
+        .containsExactly(
+            tuple("file1", 1, "Warning 1"),
+            tuple("file2", 2, "Warning 2"));
+  }
+
+  @Test
+  public void testLintProject() throws Exception {
+    List<Warning> warnings = lint.project(
+        xml("file1", "<xml></xml>"),
+        java("file2", "public class Class{}"));
 
     assertThat(warnings).extracting("file.name", "line", "message")
         .containsExactly(
