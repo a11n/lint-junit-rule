@@ -1,6 +1,7 @@
 package com.ad.android.tools.lint;
 
 import com.android.annotations.NonNull;
+import com.android.testutils.SdkTestCase;
 import com.android.tools.lint.Warning;
 import com.android.tools.lint.checks.infrastructure.LintDetectorTest;
 import com.android.tools.lint.detector.api.Detector;
@@ -9,6 +10,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import org.intellij.lang.annotations.Language;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Ignore;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -40,15 +43,14 @@ public class Lint implements TestRule {
   private String[] files;
 
   /**
-   * Constructs a new {@code Lint} junit rule.
-   * <p> Example:
+   * Constructs a new {@code Lint} junit rule. <p> Example:
    * <pre>
    * <code>
    * {@literal @}Rule public Lint lint =
    *  new Lint(new MyCustomRule(), MyCustomRule.ISSUE);
    * </code>
    * </pre>
-   * 
+   *
    * @param detector the detector under test.
    * @param issues the issues under test.
    */
@@ -65,10 +67,9 @@ public class Lint implements TestRule {
   @Override public Statement apply(Statement base, Description description) {
     return new LintStatement(base);
   }
-  
+
   /**
-   * Performs a Lint analysis on the specified files.
-   * <p> Example:
+   * Performs a Lint analysis on the specified files. <p> Example:
    * <pre>
    * <code>
    *  List&lt;Warning&gt; warnings =
@@ -78,16 +79,21 @@ public class Lint implements TestRule {
    * </code>
    * </pre>
    *
-   * <b>Note:</b> Lint uses the specified {@link Detector} and will report the specified {@link Issue}s.
+   * <b>Note:</b> Lint uses the specified {@link Detector} and will report the specified {@link
+   * Issue}s.
    *
    * @param files the relative paths of the files to analyze.
-   * 
-   * @return a {@link List} of {@link Warning}s. 
-   * 
+   * @return a {@link List} of {@link Warning}s.
    * @throws Exception for unexpected behavior during Lint analysis (e.g. could not find or access
    * file)
    */
   public List<Warning> files(@NonNull String... files) throws Exception {
+    wrapper.analyze(detector, Arrays.asList(issues), files);
+
+    return wrapper.getWarnings();
+  }
+
+  public List<Warning> project(TestFile... files) throws Exception {
     wrapper.analyze(detector, Arrays.asList(issues), files);
 
     return wrapper.getWarnings();
@@ -109,6 +115,9 @@ public class Lint implements TestRule {
 
     void analyze(Detector detector, List<Issue> issues, String... files) throws Exception;
 
+    void analyze(Detector detector, List<Issue> issues, TestFile... files)
+        throws Exception;
+
     List<Warning> getWarnings();
 
     @Ignore
@@ -118,11 +127,30 @@ public class Lint implements TestRule {
 
       private List<Warning> warnings;
 
-      public void analyze(Detector detector, List<Issue> issues, String... files) throws Exception {
+      @Override public void analyze(Detector detector, List<Issue> issues, String... files)
+          throws Exception {
         this.detector = detector;
         this.issues = issues;
 
         lintFiles(files);
+      }
+
+      @Override public void analyze(Detector detector, List<Issue> issues, Lint.TestFile... files)
+          throws Exception {
+        this.detector = detector;
+        this.issues = issues;
+
+        TestFile[] testFiles = convert(files);
+        
+        lintProject(testFiles);
+      }
+
+      @NotNull private TestFile[] convert(Lint.TestFile[] files) {
+        TestFile[] testFiles = new TestFile[files.length];
+        for (int i = 0; i < testFiles.length; i++) {
+          testFiles[i] = file().to(files[i].getTo()).withSource(files[i].getSource());
+        }
+        return testFiles;
       }
 
       public List<Warning> getWarnings() {
@@ -162,6 +190,34 @@ public class Lint implements TestRule {
           return mWarnings;
         }
       }
+    }
+  }
+
+  static class TestFile {
+    private final String to;
+    private final String source;
+
+    @NonNull
+    public static TestFile java(@NonNull String to, @NonNull @Language("JAVA") String source) {
+      return new TestFile(to, source);
+    }
+
+    @NonNull
+    public static TestFile xml(@NonNull String to, @NonNull @Language("XML") String source) {
+      return new TestFile(to, source);
+    }
+
+    private TestFile(String to, String source) {
+      this.to = to;
+      this.source = source;
+    }
+
+    public String getTo() {
+      return to;
+    }
+
+    public String getSource() {
+      return source;
     }
   }
 }
