@@ -6,8 +6,8 @@ import com.android.tools.lint.detector.api.Issue;
 import java.util.List;
 import org.junit.Test;
 
-import static com.ad.android.tools.lint.Lint.TestFile.java;
-import static com.ad.android.tools.lint.Lint.TestFile.xml;
+import static com.ad.android.tools.lint.TestFile.java;
+import static com.ad.android.tools.lint.TestFile.xml;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LintTest {
@@ -28,7 +28,7 @@ public class LintTest {
 
   @Test
   public void shouldAnalyzeInlineResourceAndReturnWarnings() throws Exception {
-    Lint.TestFile[] files = {
+    TestFile[] files = {
         xml("file1", "<xml></xml>"),
         java("file2", "public class Class{}") };
     Detector detector = Helper.dummyDetector();

@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static com.ad.android.tools.lint.Lint.TestFile.java;
-import static com.ad.android.tools.lint.Lint.TestFile.xml;
+import static com.ad.android.tools.lint.TestFile.java;
+import static com.ad.android.tools.lint.TestFile.xml;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.StrictAssertions.tuple;
 
