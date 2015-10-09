@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Ignore;
 
 @Ignore
-final class GenericDetectorTest extends LintDetectorTest implements Wrapper {
+final class LintDetectorTestWrapper extends LintDetectorTest implements Wrapper {
   private Detector detector;
   private List<Issue> issues;
 

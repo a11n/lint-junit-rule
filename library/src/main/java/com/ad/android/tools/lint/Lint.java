@@ -48,7 +48,7 @@ public class Lint implements TestRule {
    * @param issues the issues under test.
    */
   public Lint(@NonNull Detector detector, @NonNull Issue... issues) {
-    wrapper = new GenericDetectorTest();
+    wrapper = new LintDetectorTestWrapper();
 
     this.detector = detector;
     this.issues = issues;
