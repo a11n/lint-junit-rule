@@ -11,12 +11,19 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.Ignore;
 
 @Ignore
-final class GenericDetectorTest extends LintDetectorTest implements Wrapper {
+final class LintDetectorTestWrapper extends LintDetectorTest implements Wrapper {
+  private ExtendedTestLintClient testLintClient;
+  
   private Detector detector;
   private List<Issue> issues;
-
+  
   private List<Warning> warnings;
 
+  public void setTestLintClient(
+      ExtendedTestLintClient testLintClient) {
+    this.testLintClient = testLintClient;
+  }
+  
   @Override public void analyze(Detector detector, List<Issue> issues, String... files)
       throws Exception {
     this.detector = detector;
@@ -57,11 +64,12 @@ final class GenericDetectorTest extends LintDetectorTest implements Wrapper {
   }
 
   @Override protected String checkLint(List<File> files) throws Exception {
-    ExtendedTestLintClient
-        testLintClient = new ExtendedTestLintClient();
+    if(testLintClient == null)
+      throw new IllegalStateException("Please call setExtendedTestLintClient() first.");
+    
     String result = checkLint(testLintClient, files);
 
-    warnings = testLintClient.getWarning();
+    warnings = testLintClient.getWarnings();
 
     return result;
   }
@@ -76,9 +84,9 @@ final class GenericDetectorTest extends LintDetectorTest implements Wrapper {
     return stream;
   }
 
-  private class ExtendedTestLintClient extends TestLintClient {
+  class ExtendedTestLintClient extends TestLintClient {
 
-    public List<Warning> getWarning() {
+    public List<Warning> getWarnings() {
       return mWarnings;
     }
   }
