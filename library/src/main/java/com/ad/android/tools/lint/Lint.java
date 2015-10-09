@@ -28,7 +28,7 @@ import org.junit.runners.model.Statement;
  * </pre>
  */
 public class Lint implements TestRule {
-  Wrapper wrapper;
+  static Wrapper wrapper = new LintDetectorTestWrapper();
 
   private final Detector detector;
   private final Issue[] issues;
@@ -48,8 +48,6 @@ public class Lint implements TestRule {
    * @param issues the issues under test.
    */
   public Lint(@NonNull Detector detector, @NonNull Issue... issues) {
-    wrapper = new LintDetectorTestWrapper();
-
     this.detector = detector;
     this.issues = issues;
   }

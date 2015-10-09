@@ -16,7 +16,7 @@ public class LintRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    lint.wrapper = Helper.dummyWrapper();
+    Lint.wrapper = Helper.dummyWrapper();
   }
 
   @Test
