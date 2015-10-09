@@ -20,7 +20,7 @@ public class LintRuleTest {
   }
 
   @Test
-  public void testLintFiles() throws Exception {
+  public void shouldLintFilesAndReturnWarnings() throws Exception {
     List<Warning> warnings = lint.files("file1", "file2");
 
     assertThat(warnings).extracting("file.name", "line", "message")
@@ -30,7 +30,7 @@ public class LintRuleTest {
   }
 
   @Test
-  public void testLintProject() throws Exception {
+  public void shouldLintProjectAndReturnWarnings() throws Exception {
     List<Warning> warnings = lint.project(
         xml("file1", "<xml></xml>"),
         java("file2", "public class Class{}"));
