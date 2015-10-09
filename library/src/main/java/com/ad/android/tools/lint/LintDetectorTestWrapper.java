@@ -69,7 +69,7 @@ final class LintDetectorTestWrapper extends LintDetectorTest implements Wrapper 
     
     String result = checkLint(testLintClient, files);
 
-    warnings = testLintClient.getWarning();
+    warnings = testLintClient.getWarnings();
 
     return result;
   }
@@ -86,7 +86,7 @@ final class LintDetectorTestWrapper extends LintDetectorTest implements Wrapper 
 
   class ExtendedTestLintClient extends TestLintClient {
 
-    public List<Warning> getWarning() {
+    public List<Warning> getWarnings() {
       return mWarnings;
     }
   }

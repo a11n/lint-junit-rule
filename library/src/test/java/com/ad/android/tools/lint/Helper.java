@@ -46,7 +46,7 @@ class Helper {
     LintDetectorTestWrapper.ExtendedTestLintClient client = mock(
         LintDetectorTestWrapper.ExtendedTestLintClient.class);
     
-    when(client.getWarning()).thenReturn(dummyWarnings());
+    when(client.getWarnings()).thenReturn(dummyWarnings());
     
     return client;
   }
