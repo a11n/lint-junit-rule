@@ -28,7 +28,14 @@ import org.junit.runners.model.Statement;
  * </pre>
  */
 public class Lint implements TestRule {
-  static Wrapper wrapper = new LintDetectorTestWrapper();
+  static Wrapper wrapper;
+  
+  static {
+    LintDetectorTestWrapper lintDetectorTestWrapper = new LintDetectorTestWrapper();
+    lintDetectorTestWrapper.setTestLintClient(lintDetectorTestWrapper.new ExtendedTestLintClient());
+    
+    wrapper = lintDetectorTestWrapper;
+  }
 
   private final Detector detector;
   private final Issue[] issues;
