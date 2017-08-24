@@ -13,17 +13,17 @@ import org.junit.Ignore;
 @Ignore
 final class LintDetectorTestWrapper extends LintDetectorTest implements Wrapper {
   private ExtendedTestLintClient testLintClient;
-  
+
   private Detector detector;
   private List<Issue> issues;
-  
+
   private List<Warning> warnings;
 
   public void setTestLintClient(
       ExtendedTestLintClient testLintClient) {
     this.testLintClient = testLintClient;
   }
-  
+
   @Override public void analyze(Detector detector, List<Issue> issues, String... files)
       throws Exception {
     this.detector = detector;
@@ -66,7 +66,7 @@ final class LintDetectorTestWrapper extends LintDetectorTest implements Wrapper 
   @Override protected String checkLint(List<File> files) throws Exception {
     if(testLintClient == null)
       throw new IllegalStateException("Please call setExtendedTestLintClient() first.");
-    
+
     String result = checkLint(testLintClient, files);
 
     warnings = testLintClient.getWarnings();
@@ -74,15 +74,15 @@ final class LintDetectorTestWrapper extends LintDetectorTest implements Wrapper 
     return result;
   }
 
-  //this needs to be overridden (see https://code.google.com/p/android/issues/detail?id=182195)
-  @Override protected InputStream getTestResource(String relativePath, boolean expectExists) {
-    String path = relativePath; //$NON-NLS-1$
-    InputStream stream = this.getClass().getClassLoader().getResourceAsStream(path);
-    if (!expectExists && stream == null) {
-      return null;
+    @Override
+    protected InputStream getTestResource(String relativePath, boolean expectExists) {
+        try {
+            return FileUtil.getResource(relativePath, getClass().getProtectionDomain().getCodeSource());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+        return null;
     }
-    return stream;
-  }
 
   class ExtendedTestLintClient extends TestLintClient {
 
