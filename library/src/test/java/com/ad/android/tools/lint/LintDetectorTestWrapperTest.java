@@ -18,8 +18,8 @@ public class LintDetectorTestWrapperTest {
     wrapper.setTestLintClient(Helper.dummyClient());
 
     Helper.createTestFile(this, "file");
-    
-    wrapper.analyze(null, null, "file");
+
+    wrapper.analyze(null, null, xml("file", ""));
   }
 
   @Test
